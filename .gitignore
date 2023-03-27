@@ -25,3 +25,5 @@ plugins/**/
 !plugins/hello
 !plugins/role
 !plugins/keyword
+
+run_wechaty_docker.sh

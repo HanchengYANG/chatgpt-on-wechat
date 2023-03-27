@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# 设置环境变量
+export WECHATY_LOG="verbose"
+export WECHATY_PUPPET="wechaty-puppet-padlocal"
+# PadLocal Token
+export WECHATY_PUPPET_PADLOCAL_TOKEN="puppet_padlocal_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+export WECHATY_PUPPET_SERVER_PORT="9001"
+# 需要和config.json中的wechaty_puppet_service_token一样
+export WECHATY_TOKEN="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+# 由于版本细节问题，目前python-wechaty 支持最好的wechaty镜像为：[wechaty/wechaty:0.65](https://hub.docker.com/layers/wechaty/wechaty/0.65/images/sha256-d39b9fb5dece3a8ffa88b80a8ccfd916be14b9d0de72115732c3ee714b0d6a96?context=explore)
+docker_id=$(docker run -tid \
+  --name wechaty_puppet_service_token_gateway \
+  --rm \
+  -e WECHATY_LOG \
+  -e WECHATY_PUPPET \
+  -e WECHATY_PUPPET_PADLOCAL_TOKEN \
+  -e WECHATY_PUPPET_SERVER_PORT \
+  -e WECHATY_TOKEN \
+  -p "$WECHATY_PUPPET_SERVER_PORT:$WECHATY_PUPPET_SERVER_PORT" \
+  wechaty/wechaty:0.65)
+# 开始读取log
+docker logs "$docker_id" -f
